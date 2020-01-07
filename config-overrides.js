@@ -2,9 +2,7 @@ const {
   override,
   fixBabelImports,
   addLessLoader,
-  addWebpackPlugin,
 } = require('customize-cra');
-const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 
 module.exports = override(
   fixBabelImports('import', {
@@ -18,7 +16,6 @@ module.exports = override(
       '@primary-color': '#1DA57A',
     },
   }),
-  addWebpackPlugin(new AntdDayjsWebpackPlugin()),
 );
 
 // module.exports = function override(config, env) {
