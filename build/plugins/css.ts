@@ -1,4 +1,6 @@
 import miniCssExtractPlugin from 'mini-css-extract-plugin';
+import vueStyleLoader from 'vue-style-loader';
+import styleLoader from 'style-loader';
 
 const cssnanoOptions = {
   safe: true,
@@ -6,8 +8,14 @@ const cssnanoOptions = {
   mergeLonghand: false
 }
 
-export default (config, { isProd, isVue }) => {
-  const cssRule = config.module.rule('css').test(/\.css$/);
+interface options {
+  isProd: boolean,
+  isVue: boolean
+}
+
+export default (config: any, options: options) => {
+  const { isProd, isVue } = options
+  const cssRule = config.module.rule('css').test(/\.css$/)
 
   if (isProd) {
     cssRule
@@ -16,17 +24,21 @@ export default (config, { isProd, isVue }) => {
       .options({
         hmr: false,
         reloadAll: true
-      });
+      })
   } else if (isVue) {
     cssRule
       .use('vue-style-loader')
-      .loader()
+      .loader(vueStyleLoader)
       .options({
         sourceMap: true
-      });
+      })
   } else {
     cssRule
       .use('style-loader')
-      .loader();
+      .loader(styleLoader)
   }
+
+  cssRule
+    .use('css-loader')
+    .loader(require.resolve('css-loader'))
 }

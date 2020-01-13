@@ -7,6 +7,3 @@ setTimeout(() => {
   spinner.succeed()
   loadEnvs(mode)
 }, 3000);
-
-
-
