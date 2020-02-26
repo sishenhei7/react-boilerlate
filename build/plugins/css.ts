@@ -10,7 +10,9 @@ const cssnanoOptions = {
 
 interface options {
   isProd: boolean,
-  isVue: boolean
+  isVue: boolean,
+  isCssModule: boolean,
+  sourceMap: boolean
 }
 
 export default (config: any, options: options) => {
@@ -41,4 +43,8 @@ export default (config: any, options: options) => {
   cssRule
     .use('css-loader')
     .loader(require.resolve('css-loader'))
+    .options({
+      modules: options.isCssModule,
+      sourceMap: options.sourceMap
+    })
 }

@@ -5,8 +5,8 @@ import logger from './logger'
 
 export default (mode: string) => {
   const dotenvFiles = [
-    `.env.${mode}`,
-    '.env'
+    '.env',
+    `.env.${mode}`
   ].filter(Boolean)
 
   dotenvFiles.forEach((filename: string) => {

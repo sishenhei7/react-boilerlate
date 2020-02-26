@@ -1,3 +1,7 @@
 declare module 'mini-css-extract-plugin'
 declare module 'vue-style-loader'
 declare module 'style-loader'
+declare module 'ora'
+declare module 'chalk'
+declare module 'dotenv'
+declare module 'dotenv-expand'
