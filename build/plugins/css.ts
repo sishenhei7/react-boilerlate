@@ -9,13 +9,15 @@ const cssnanoOptions = {
 }
 
 interface options {
-  isProd: boolean,
-  isVue: boolean,
-  isCssModule: boolean,
-  sourceMap: boolean
+  isProd?: boolean,
+  isVue?: boolean,
+  isCssModule?: boolean,
+  sourceMap?: boolean,
+  isNeedInlineMinification?: boolean,
+  postcss?: object,
 }
 
-export default (config: any, options: options) => {
+export default (config: any, options: options, loader: any, loaderOptions: any) => {
   const { isProd, isVue } = options
   const cssRule = config.module.rule('css').test(/\.css$/)
 
@@ -47,4 +49,31 @@ export default (config: any, options: options) => {
       modules: options.isCssModule,
       sourceMap: options.sourceMap
     })
+
+  if (options.isNeedInlineMinification) {
+    cssRule
+      .use('cssnano')
+      .loader('postcss-loader')
+      .options({
+        plugins: [require('cssnano')(cssnanoOptions)]
+      })
+  }
+
+  cssRule
+    .use('postcss-loader')
+    .loader('postcss-loader')
+    .options({
+      sourceMap: options.sourceMap,
+      ...options.postcss
+    })
+
+  if (loader) {
+    cssRule
+      .use(loader)
+      .loader(loader)
+      .options({
+        sourceMap: options.sourceMap,
+        ...loaderOptions
+      })
+  }
 }
